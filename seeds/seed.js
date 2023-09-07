@@ -1,7 +1,7 @@
-const sequelize = require('./config/connection');
-const seedUsers = require('./seeds/userSeeds');
-const seedPosts = require('./seeds/postSeeds');
-const seedComments = require('./seeds/commentSeeds');
+const sequelize = require('../config/connection');
+const seedUsers = require('../seeds/userSeeds');
+const seedPosts = require('../seeds/postSeeds');
+const seedComments = require('../seeds/commentSeeds');
 
 const seedAll = async () => {
   try {
