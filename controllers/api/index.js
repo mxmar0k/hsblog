@@ -1,11 +1,10 @@
-//this allows us to organize routes and handle requests for different resource types
-const router = require('express').Router();
-const userRoutes = require('./userRoutes');
-const postRoutes = require('./postRoutes');
-const commentRoutes = require('./commentRoutes');
+const router = require("express").Router();
+const userRoutes = require("./userRoutes");
+const postRoutes = require("./postRoutes");
+const commentRoutes = require("./commentRoutes");
 
-router.use('/users', userRoutes);
-router.use('/posts', postRoutes);
-router.use('/comments', commentRoutes);
+router.use("/users", userRoutes); 
+router.use("/posts", postRoutes); 
+router.use("/comments", commentRoutes); 
 
 module.exports = router;

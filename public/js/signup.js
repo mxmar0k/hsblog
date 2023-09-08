@@ -8,14 +8,15 @@ const hearthstoneSignupFormHandler = async (event) => {
   
     if (username && email && password) {
       try {
-        const response = await fetch('/api/users/signup', {
+        console.log("About to send POST request to /api/users/")
+        const response = await fetch('/api/users/', {
           method: 'POST',
           body: JSON.stringify({ username, email, password }),
           headers: { 'Content-Type': 'application/json' },
         });
   
         if (response.ok) {
-          document.location.replace('/hearthstone-dashboard');
+          document.location.replace('/dashboard');
         } else {
           throw new Error('Failed to sign up. Please try again.');
         }

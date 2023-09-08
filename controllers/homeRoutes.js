@@ -1,91 +1,119 @@
-//this code defines the routes for the web app
-//renders the views and manages the user sessions
-
-//first we import the dependencies
+// Import necessary packages and models
 const router = require("express").Router();
 const { Post, User, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
-// we added a common function to fetch and render data
-//to avoid code duplication
-const renderData = async (req, res, viewName, options = {}) => {
+// Route to render homepage
+router.get("/", async (req, res) => {
   try {
+        // Find all posts with associated usernames
     const postData = await Post.findAll({
-      ...options,
       include: [{ model: User, attributes: ["username"] }],
     });
-
+    // Convert post data to plain JavaScript object
+    const posts = postData.map((post) => post.get({ plain: true }));
+    // Render homepage template with posts and login status
+    res.render("homepage", {
+      posts,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+        // If there is an error, return 500 status code and error message
+    res.status(500).json(err);
+  }
+});
+// Route to render individual post page
+router.get("/post/:id", withAuth, async (req, res) => {
+  try {
+        // Find post by ID with associated username and comments with associated usernames
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        { model: User, attributes: ["username"] },
+        {
+          model: Comment,
+          include: [{ model: User, attributes: ["username"] }],
+        },
+      ],
+    });
+    // Convert post data to plain JavaScript object
+    const post = postData.get({ plain: true });
+    // Render post template with post data and login status
+    res.render("post", {
+      ...post,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+        // If there is an error, return 500 status code and error message
+    res.status(500).json(err);
+  }
+});
+// Route to render dashboard page with all posts by current user
+// Find all posts by current user with associated usernames
+router.get("/dashboard", withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      where: { user_id: req.session.user_id },
+      include: [{ model: User, attributes: ["username"] }],
+    });
+    // Convert post data to plain JavaScript object
     const posts = postData.map((post) => post.get({ plain: true }));
 
-    res.render(viewName, {
+    res.render("dashboard", {
       posts,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
     res.status(500).json(err);
   }
-};
-
-//we use this to render the homepage with render data
-router.get("/", async (req, res) => {
-  await renderData(req, res, "homepage");
 });
 
-//we use this to render a specific post
-router.get("/post/:id", async (req, res) => {
-  const postId = req.params.id;
-  await renderData(req, res, "post", {
-    where: { id: postId },
-    include: [
-      { model: Comment, include: [{ model: User, attributes: ["username"] }] },
-    ],
-  });
-});
-
-//we use this to access the dashb for the au users using withauth
-router.get("/dashboard", withAuth, async (req, res) => {
-  await renderData(req, res, "dashboard", {
-    where: { user_id: req.session.user_id },
-  });
-});
-
-//renders the login routes
 router.get("/login", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/dashboard");
-  } else {
-    res.render("login");
+    return;
   }
+  res.render("login");
 });
 
-//renders the signup routes
 router.get("/signup", (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/dashboard");
-  } else {
-    res.render("signup");
+    return;
   }
+  res.render("signup");
 });
 
-//renders the newpost routes
+//render the new post page
 router.get("/newpost", (req, res) => {
   if (req.session.logged_in) {
     res.render("newpost");
-  } else {
-    res.redirect("/login");
+    return;
+  }
+  res.redirect("/login");
+});
+
+//render the edit post page
+router.get("/editpost/:id", async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        { model: User, attributes: ["username"] },
+        {
+          model: Comment,
+          include: [{ model: User, attributes: ["username"] }],
+        },
+      ],
+    });
+
+    const post = postData.get({ plain: true });
+
+    res.render("editpost", {
+      ...post,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
-
-//renders the edit routes
-router.get("/editpost/:id", async (req, res) => {
-  const postId = req.params.id;
-  await renderData(req, res, "editpost", {
-    where: { id: postId },
-    include: [
-      { model: Comment, include: [{ model: User, attributes: ["username"] }] },
-    ],
-  });
-});
-
-//exports to main app
+// module exports router
 module.exports = router;

@@ -15,7 +15,7 @@ const newHearthstonePostFormHandler = async (event) => {
         });
   
         if (response.ok) {
-          document.location.replace('/hearthstone-dashboard');
+          document.location.replace('/dashboard');
         } else {
           throw new Error('Failed to create a new post. Please try again.');
         }

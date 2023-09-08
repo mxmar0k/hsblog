@@ -5,8 +5,8 @@ const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const expressHandlebars = require("express-handlebars");
-const handlebars = require("handlebars");
-const mysql2 = require("mysql2");
+const handlebars = expressHandlebars.create({helpers:require("./Utils/helpers")});
+
 
 //express app and port
 const app = express();
@@ -35,16 +35,7 @@ app.use(express.static('public'));
 app.engine("handlebars", handlebars.engine);
 app.set("view engine", "handlebars");
 
-//we use this to manage user sessions, stores in database and specifies
-//the options for the session
-app.use(
-    session({
-        secret: process.env.SECRET,
-        store: new SequelizeStore({db: sequelize}),
-        resave: false,
-        saveUninitialized: false,
-    })
-)
+
 
 //this starts the code and sets express.js app to use the defined routes for the http requests
 app.use(routes);

@@ -2,13 +2,11 @@ const router = require("express").Router();
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");
 
-// this is a reusable error handling middleware
 const handleErrorResponse = (res, err) => {
   console.error(err);
   res.status(500).json({ error: "An error occurred" });
 };
 
-// we get all posts
 router.get("/", async (req, res) => {
   try {
     const postData = await Post.findAll({
@@ -16,11 +14,10 @@ router.get("/", async (req, res) => {
     });
     res.status(200).json(postData);
   } catch (err) {
-    handleErrorResponse(res, err);
+    handleErrorResponse(res, err); 
   }
 });
 
-// we get a post by ID
 router.get("/:id", async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
@@ -33,7 +30,7 @@ router.get("/:id", async (req, res) => {
       ],
     });
     if (!postData) {
-      res.status(404).json({ message: "There are no posts with that id" });
+      res.status(404).json({ message: "No post found with that id!" });
       return;
     }
     res.status(200).json(postData);
@@ -42,7 +39,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// we create a new post
 router.post("/", withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
@@ -51,11 +47,10 @@ router.post("/", withAuth, async (req, res) => {
     });
     res.status(200).json(newPost);
   } catch (err) {
-    handleErrorResponse(res, err);
+    handleErrorResponse(res, err); 
   }
 });
 
-// update a post by ID
 router.put("/:id", withAuth, async (req, res) => {
   try {
     const updatedPost = await Post.update(req.body, {
@@ -63,7 +58,7 @@ router.put("/:id", withAuth, async (req, res) => {
     });
 
     if (!updatedPost) {
-      res.status(404).json({ message: "There are no posts with that id" });
+      res.status(404).json({ message: "No post found with that id!" });
       return;
     }
     res.status(200).json(updatedPost);
@@ -72,7 +67,6 @@ router.put("/:id", withAuth, async (req, res) => {
   }
 });
 
-// delete a post by ID and everything related to it
 router.delete("/:id", withAuth, async (req, res) => {
   try {
     await Comment.destroy({
@@ -84,7 +78,7 @@ router.delete("/:id", withAuth, async (req, res) => {
     });
 
     if (!deletedPost) {
-      res.status(404).json({ message: "There are no posts with that id" });
+      res.status(404).json({ message: "No post found with that id!" });
       return;
     }
     res.status(200).json(deletedPost);

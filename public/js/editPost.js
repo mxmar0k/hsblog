@@ -23,7 +23,7 @@ const handlePostAction = async (actionType) => {
       });
 
       if (response.ok) {
-        document.location.replace('/hearthstone-dashboard');
+        document.location.replace('/dashboard');
       } else {
         throw new Error('Failed to update a Hearthstone post.');
       }
@@ -31,7 +31,7 @@ const handlePostAction = async (actionType) => {
       const response = await fetch(url, { method });
 
       if (response.ok) {
-        document.location.replace('/hearthstone-dashboard');
+        document.location.replace('/dashboard');
       } else {
         throw new Error('Failed to delete a Hearthstone post.');
       }

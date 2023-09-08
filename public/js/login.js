@@ -18,7 +18,7 @@ const hearthstoneLoginHandler = async (event) => {
         });
   
         if (response.ok) {
-          document.location.replace('/hearthstone-home');
+          document.location.replace('/');
         } else {
           throw new Error('Failed to log in. Please check your credentials.');
         }

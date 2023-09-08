@@ -7,7 +7,7 @@ const hearthstoneLogout = async () => {
       });
   
       if (response.ok) {
-        document.location.replace('/hearthstone-home'); 
+        document.location.replace('/'); 
       } else {
         throw new Error('Failed to log out. Please try again.');
       }

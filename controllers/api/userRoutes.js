@@ -1,72 +1,74 @@
+
 const router = require("express").Router();
 const { User } = require("../../models");
-const withAuth = require("../../utils/auth");
 
-// Reusable error handling middleware
-const handleErrorResponse = (res, err) => {
-  console.error(err);
-  res.status(500).json({ error: "An error occurred" });
-};
 
-// we first get all users
 router.get("/", (req, res) => {
   User.findAll({
     attributes: { exclude: ["password"] },
   })
     .then((dbUserData) => res.json(dbUserData))
     .catch((err) => {
-      handleErrorResponse(res, err);
+      console.log(err);
+      res.status(500).json(err);
     });
 });
 
-// next we create a new user
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
-    const userData = await User.create(req.body);
+    const newUser = new User();
+    newUser.username = req.body.username;
+    newUser.email = req.body.email;
+    newUser.password = req.body.password;
 
-    // we create a session for the new user
+    const userData = await newUser.save();
+
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
+
       res.status(200).json(userData);
     });
   } catch (err) {
-    handleErrorResponse(res, err);
+    res.status(400).json(err);
+    console.log(err);
   }
 });
 
-// to login a user
 router.post("/login", async (req, res) => {
   try {
-    // we find the user by email
-    const userData = await User.findOne({ where: { email: req.body.email } });
+    const userData = await User.findOne({ where: { username: req.body.username } });
 
     if (!userData) {
-      res.status(400).json({ message: "Incorrect email or password, check credentials" });
+      res
+        .status(400)
+        .json({ message: "Incorrect username or password, please try again" });
       return;
     }
 
-    // we check if the password is valid
     const validPassword = await userData.checkPassword(req.body.password);
 
     if (!validPassword) {
-      res.status(400).json({ message: "Incorrect email or password, check credentials" });
+      res
+        .status(400)
+        .json({ message: "Incorrect email or password, please try again" });
       return;
     }
 
-    // Create a session for the logged-in user
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-      res.status(200).json({ user: userData, message: "You have successfully logged in!" });
+
+      res
+        .status(200)
+        .json({ user: userData, message: "You are now logged in!" });
     });
   } catch (err) {
-    handleErrorResponse(res, err);
+    res.status(400).json(err);
   }
 });
 
-// then we logout a user with destroy session
-router.post("/logout", withAuth, (req, res) => {
+router.post("/logout", (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
