@@ -9,6 +9,7 @@ const handlePostAction = async (actionType) => {
     const method = actionType === 'update' ? 'PUT' : 'DELETE';
 
     if (actionType === 'update') {
+      console.log('ppppppp');
       const title = document.querySelector('#title-update-hearthstone-post').value.trim();
       const content = document.querySelector('#content-update-hearthstone-post').value.trim();
 
