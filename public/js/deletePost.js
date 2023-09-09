@@ -8,7 +8,8 @@ const deletePost = async (postId) => {
       });
   
       if (response.ok) {
-        document.location.reload(); 
+        // document.location.reload(); 
+        document.location.replace("/dashboard");
       } else {
         throw new Error("Failed to delete post.");
       }
