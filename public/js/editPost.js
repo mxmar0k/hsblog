@@ -43,7 +43,9 @@ const handlePostAction = async (actionType) => {
   }
 };
 
-// Event listener for both update and delete buttons
+// event listener for both update and delete buttons
+// you have to make sure the button you need has this class 
+//made mistake of not adding it haha
 const actionButtons = document.querySelectorAll('.action-hearthstone-post');
 
 actionButtons.forEach((button) => {

@@ -1,4 +1,4 @@
-// Logout request (public/js/logout.js)
+// this handles the logout
 const hearthstoneLogout = async () => {
     try {
       const response = await fetch('/api/users/logout', {

@@ -1,3 +1,11 @@
+//this is the routes for getting all posts
+//all posts for id
+// this also has the routes for post posts
+//and also added the one the update via put the posts
+//and finally it has the delete via destroy
+
+
+
 const router = require("express").Router();
 const { Post, User, Comment } = require("../../models");
 const withAuth = require("../../utils/auth");

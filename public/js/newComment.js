@@ -1,4 +1,4 @@
-//new comment on the webpage
+//this is for new comments on the page
 const newHearthstoneCommentFormHandler = async (event) => {
     event.preventDefault();
  

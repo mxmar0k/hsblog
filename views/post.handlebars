@@ -1,13 +1,13 @@
 <main class="container mt-5">
   <article>
-    <h1>{{title}}</h1>
+    <h1 class="text-warning">{{title}}</h1>
     <p>By {{User.username}} on {{format_date createdAt}}</p>
-    <p>{{content}}</p>
+    <p class="text-info">{{content}}</p>
   </article>
   {{#if logged_in}}
     <form class="new-hearthstone-comment-form mb-3">
       <div class="mb-3">
-        <label for="comment" class="form-label">Add a comment</label>
+        <label for="comment" class="form-label text-warning">Add a comment</label>
         <textarea
           class="form-control"
           id="content-new-hearthstone-comment"
@@ -15,13 +15,13 @@
           placeholder="Add a comment"
         ></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-warning">Submit</button>
     </form>
   {{/if}}
   <h2>Comments</h2>
   {{#each Comments}}
     <div class="comment mb-3">
-      <p>{{comment_text}}</p>
+      <p class="text-info">{{comment_text}}</p>
       <p>By {{User.username}} on {{format_date createdAt}}</p>
     </div>
   {{/each}}

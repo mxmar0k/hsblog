@@ -1,3 +1,7 @@
+//this is the post route for comments
+//i added a lot of logs because something what wrong
+// and i couldn't figure out what
+
 const router = require("express").Router();
 const { Comment } = require("../../models");
 const withAuth = require("../../utils/auth");

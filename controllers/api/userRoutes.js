@@ -1,4 +1,10 @@
 
+//this are the routes for creating a new user with sign up
+//also to get all the users
+//also to log in, you have to post the user name and password and 
+//then it enters
+//finally it logs out via destroy session 
+
 const router = require("express").Router();
 const { User } = require("../../models");
 

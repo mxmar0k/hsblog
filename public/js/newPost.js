@@ -1,4 +1,4 @@
-//new post on the website
+//this is for new posts on the website
 
 const newHearthstonePostFormHandler = async (event) => {
     event.preventDefault();
