@@ -10,7 +10,7 @@ const handlebars = expressHandlebars.create({helpers:require("./Utils/helpers")}
 
 //express app and port
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 //session with a cookie and store in sequelizestore
 const sess = {
