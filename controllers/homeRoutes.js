@@ -38,6 +38,7 @@ router.get("/post/:id", withAuth, async (req, res) => {
     // Convert post data to plain JavaScript object
     const post = postData.get({ plain: true });
     // Render post template with post data and login status
+    console.log(`ESTO ES EL POST: ${Object.keys(post.User)}`);
     res.render("post", {
       ...post,
       logged_in: req.session.logged_in,
