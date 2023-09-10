@@ -6,7 +6,7 @@
 //finally it logs out via destroy session 
 
 const router = require("express").Router();
-const { User } = require("../../models/User");
+const { User } = require("../../models");
 
 
 router.get("/", (req, res) => {
