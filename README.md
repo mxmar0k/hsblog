@@ -5,6 +5,10 @@
 ## Description
 This is a Hearthstone Blog using MVC, have fun and share whatever you like, as long as it is hearthstone related
 
+Here is the link to heroku deployed app:
+
+https://hsblogv1-3d303332730d.herokuapp.com/
+
 ![Alt text](<Captura de pantalla 2023-09-09 a la(s) 14.39.07.png>)
 
 ## Table of Contents
