@@ -9,7 +9,7 @@ const hearthstoneSignupFormHandler = async (event) => {
     if (username && email && password) {
       try {
         console.log("About to send POST request to /api/users/")
-        const response = await fetch('/api/users/', {
+        const response = await fetch('/api/users/signup', {
           method: 'POST',
           body: JSON.stringify({ username, email, password }),
           headers: { 'Content-Type': 'application/json' },
