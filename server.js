@@ -5,7 +5,7 @@ const routes = require('./controllers');
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const expressHandlebars = require("express-handlebars");
-const handlebars = expressHandlebars.create({helpers:require("./Utils/helpers")});
+const handlebars = expressHandlebars.create({helpers:require("./utils/helpers")});
 
 
 //express app and port
